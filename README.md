@@ -28,3 +28,11 @@
 ## 💭프로젝트를 진행하면서 생각해봐야 하는 부분  
 1. React Markdown, React SyntaxHighLiter 을 통해, 글을 마크 다운을 이용해서 보여줄 것인가 ? 
     아니면, SupaBase 를 통해, 글을 정보를 저장하고, 진행할 것인가 ?
+
+### ✍️Featured-Sliced Design 채택
+[Featured-Sliced 공식 문서](https://feature-sliced.design/docs/get-started/overview)
+<br/>[Featured-Sliced 한국 요약본](https://emewjin.github.io/feature-sliced-design/)
+- 해당 아키텍쳐는 크게 레이어(Layer), 슬라이스(Slice) , 세그먼트(Segement)로 분리된다.
+- Layer ( 'APP', 'ENTITIES' , 'FEATURES' , 'PAGES', 'SHARED'),
+- Slices 
+- Segments ( UI , API , MODEL )
