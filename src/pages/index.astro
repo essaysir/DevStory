@@ -1,9 +1,60 @@
 ---
+import ArticleList from '../components/ArticleList.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import ShelfCard from '../components/ShelfCard.astro';
+import { SECTIONS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getPublished, getShelf, getShelfItem } from '../lib/content';
+import { reviewsByShelf } from '../lib/entries';
+
+const posts = (await getPublished('posts')).slice(0, 5);
+const reviews = (await getPublished('reviews')).slice(0, 3);
+const reviewCards = await Promise.all(
+	reviews.map(async (review) => ({ review, item: await getShelfItem(review) })),
+);
+const shelf = (await getShelf()).slice(0, 6);
+const byShelf = reviewsByShelf(await getPublished('reviews'));
 ---
 
 <BaseLayout>
-	<h1>{SITE_TITLE}</h1>
+	<h1 class="mb-2 text-3xl font-bold">{SITE_TITLE}</h1>
 	<p>{SITE_DESCRIPTION}</p>
+
+	<section class="mt-8">
+		<h2 class="mb-4 text-xl font-bold">최근 Posts</h2>
+		{posts.length ? <ArticleList items={posts} /> : <p>아직 없음</p>}
+		<p class="mt-2"><a href="/posts/">전체 보기</a></p>
+	</section>
+
+	<section class="mt-8">
+		<h2 class="mb-4 text-xl font-bold">최근 {SECTIONS.reviews.label}</h2>
+		{
+			reviewCards.length ? (
+				<ul class="grid gap-4">
+					{reviewCards.map(({ review, item }) => (
+						<ReviewCard review={review} item={item} />
+					))}
+				</ul>
+			) : (
+				<p>아직 없음</p>
+			)
+		}
+		<p class="mt-2"><a href={`/${SECTIONS.reviews.slug}/`}>전체 보기</a></p>
+	</section>
+
+	<section class="mt-8">
+		<h2 class="mb-4 text-xl font-bold">{SECTIONS.shelf.label} 최근</h2>
+		{
+			shelf.length ? (
+				<ul class="grid gap-4">
+					{shelf.map((item) => (
+						<ShelfCard item={item} review={byShelf.get(item.id)?.[0]} />
+					))}
+				</ul>
+			) : (
+				<p>아직 없음</p>
+			)
+		}
+		<p class="mt-2"><a href={`/${SECTIONS.shelf.slug}/`}>전체 보기</a></p>
+	</section>
 </BaseLayout>

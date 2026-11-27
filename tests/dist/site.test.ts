@@ -36,3 +36,36 @@ test('Pretendard 폰트가 CSS에 들어 있다', () => {
   const css = readdirSync(join(DIST, '_astro')).filter((f) => f.endsWith('.css'));
   expect(css.some((f) => readDist(`_astro/${f}`).includes('Pretendard Variable'))).toBe(true);
 });
+
+test('내부 링크는 실제 파일을 가리킨다', () => {
+  const broken: string[] = [];
+  for (const file of htmlFiles()) {
+    for (const m of readDist(file).matchAll(/href="(\/[^"]*)"/g)) {
+      const href = m[1];
+      if (href.startsWith('//')) continue;
+      const path = href.split('#')[0].split('?')[0];
+      const last = path.split('/').pop() ?? '';
+      const ok = last.includes('.')
+        ? exists(path.slice(1))
+        : path.endsWith('/') && exists(`${path.slice(1)}index.html`);
+      if (!ok) broken.push(`${file}: ${href}`);
+    }
+  }
+  expect(broken).toEqual([]);
+});
+
+test('title은 페이지마다 다르다', () => {
+  const seen = new Map<string, string>();
+  for (const file of htmlFiles()) {
+    const m = readDist(file).match(/<title>([^<]+)<\/title>/);
+    expect(m, `${file}: title 없음`).not.toBeNull();
+    expect(seen.get(m![1]), `${file}: title "${m![1]}" 중복`).toBeUndefined();
+    seen.set(m![1], file);
+  }
+});
+
+test('description은 비어 있지 않다', () => {
+  for (const file of htmlFiles()) {
+    expect(readDist(file), file).toMatch(/<meta name="description" content="[^"]+"/);
+  }
+});

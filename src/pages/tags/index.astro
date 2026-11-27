@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticles } from '../../lib/content';
+import { collectTags } from '../../lib/entries';
+
+const tags = collectTags(await getArticles());
+---
+
+<BaseLayout title="태그" description="태그별 글 모음">
+	<h1 class="mb-6 text-3xl font-bold">태그</h1>
+	{
+		tags.size ? (
+			<ul class="space-y-2">
+				{[...tags].map(([tag, items]) => (
+					<li>
+						<a href={`/tags/${tag}/`}>#{tag}</a> ({items.length})
+					</li>
+				))}
+			</ul>
+		) : (
+			<p>아직 없음</p>
+		)
+	}
+</BaseLayout>

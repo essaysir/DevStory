@@ -1,6 +1,5 @@
 import { test, expect } from 'vitest';
 import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
 import { DIST, exists, readDist } from './helpers';
 
 const BODY_EXT = /\.(html|xml|txt|json)$/;
@@ -61,4 +60,33 @@ test('서재: 공개 후기가 있는 카드만 링크', () => {
   const links = shelf.match(/href="\/reviews\/[^"]+\/"/g) ?? [];
   expect(links).toEqual(['href="/reviews/sample-course-review/"']); // sample-book은 draft 후기뿐 → 링크 없음
   expect(shelf).toContain('샘플 책: 데이터베이스 설계 기초');
+});
+
+test('태그 페이지는 공개 글에 쓰인 태그만', () => {
+  for (const t of ['astro', 'database', 'react', 'spring']) {
+    expect(exists(`tags/${t}/index.html`), t).toBe(true);
+  }
+  expect(exists('tags/java/index.html')).toBe(false); // draft 글에만 쓰인 태그
+  const db = readDist('tags/database/index.html');
+  expect(db).toContain('/posts/sample-typography/');
+  expect(db).toContain('/reviews/sample-course-review/');
+});
+
+test('메인에 최근 글·후기·서재', () => {
+  const home = readDist('index.html');
+  for (const s of [
+    '/posts/sample-typography/',
+    '/posts/sample-interactive-demo/',
+    '/reviews/sample-course-review/',
+    '샘플 강의: 스프링 데이터 입문',
+    '샘플 책: 데이터베이스 설계 기초',
+  ]) {
+    expect(home).toContain(s);
+  }
+});
+
+test('About·404 페이지', () => {
+  expect(exists('about/index.html')).toBe(true);
+  expect(exists('404.html')).toBe(true);
+  expect(exists('tags/index.html')).toBe(true);
 });

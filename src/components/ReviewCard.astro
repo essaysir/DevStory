@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import type { ReviewEntry, ShelfEntry } from '../lib/content';
+import { entryUrl, stars } from '../lib/entries';
+
+interface Props {
+	review: ReviewEntry;
+	item: ShelfEntry;
+}
+
+const { review, item } = Astro.props;
+---
+
+<li class="flex gap-4 border p-4">
+	<Image src={item.data.image} width={120} alt={item.data.title} />
+	<div>
+		<a href={entryUrl(review)} class="font-semibold">{review.data.title}</a>
+		<p class="text-sm">{item.data.title}</p>
+		<p>{stars(item.data.rating)}</p>
+	</div>
+</li>

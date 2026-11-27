@@ -1,0 +1,19 @@
+---
+import ArticleList from '../../components/ArticleList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticles } from '../../lib/content';
+import { collectTags } from '../../lib/entries';
+
+export async function getStaticPaths() {
+	const tags = collectTags(await getArticles());
+	return [...tags].map(([tag, items]) => ({ params: { tag }, props: { items } }));
+}
+
+const { tag } = Astro.params;
+const { items } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`${tag} 태그가 붙은 글`}>
+	<h1 class="mb-6 text-3xl font-bold">#{tag}</h1>
+	<ArticleList items={items} showSection />
+</BaseLayout>

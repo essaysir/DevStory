@@ -1,0 +1,10 @@
+---
+import { AUTHOR } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="블로그 작성자 소개와 연락처">
+	<h1 class="mb-6 text-3xl font-bold">About</h1>
+	<p>안녕하세요, {AUTHOR.name}입니다. 소개 문구는 나중에 채웁니다.</p>
+	<p class="mt-4">연락처: <a href={AUTHOR.github}>GitHub</a></p>
+</BaseLayout>

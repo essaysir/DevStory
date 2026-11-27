@@ -12,13 +12,13 @@ export function getStaticPaths() {
 
 const { section } = Astro.params;
 const isShelf = section === SECTIONS.shelf.slug;
-const label = isShelf ? SECTIONS.shelf.label : SECTIONS.reviews.label;
+const { label, description } = isShelf ? SECTIONS.shelf : SECTIONS.reviews;
 const reviews = await getPublished('reviews');
 const shelf = isShelf ? await getShelf() : [];
 const byShelf = reviewsByShelf(reviews);
 ---
 
-<BaseLayout title={label}>
+<BaseLayout title={label} description={description}>
 	<h1 class="mb-6 text-3xl font-bold">{label}</h1>
 	{
 		isShelf ? (
