@@ -1,9 +1,9 @@
-import { defineCollection, reference } from 'astro:content';
+import { defineCollection, reference, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { TAGS } from './tags';
 
-const articleFields = (image: () => z.ZodType) => ({
+const articleFields = (image: SchemaContext['image']) => ({
 	title: z.string(),
 	description: z.string(),
 	pubDate: z.coerce.date(),
@@ -27,7 +27,7 @@ const reviews = defineCollection({
 		}),
 });
 
-const shelfCommon = (image: () => z.ZodType) => ({
+const shelfCommon = (image: SchemaContext['image']) => ({
 	title: z.string(),
 	image: image(),
 	finishedAt: z.coerce.date(),
