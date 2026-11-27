@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import { readdirSync } from 'node:fs';
-import { DIST, exists, readDist } from './helpers';
+import { DIST, exists, htmlFiles, readDist } from './helpers';
 
 const BODY_EXT = /\.(html|xml|txt|json)$/;
 
@@ -90,3 +90,16 @@ test('About·404 페이지', () => {
   expect(exists('404.html')).toBe(true);
   expect(exists('tags/index.html')).toBe(true);
 });
+
+test('데모 글만 아일랜드를 받고, 미리 렌더링돼 있다', () => {
+  const demo = readDist('posts/sample-interactive-demo/index.html');
+  expect(demo).toContain('<astro-island');
+  expect(demo).toContain('누른 횟수: 0');
+});
+
+test('다른 페이지는 프레임워크 런타임이 없다', () =>
+  htmlFiles()
+    .filter((f) => f !== 'posts/sample-interactive-demo/index.html')
+    .forEach((f) =>
+      ['astro-island', 'renderer-url', 'component-url'].forEach((s) => expect(readDist(f)).not.toContain(s)),
+    ));
