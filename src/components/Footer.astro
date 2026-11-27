@@ -1,8 +1,9 @@
 ---
 import { AUTHOR } from '../consts';
+import { yearOf } from '../lib/dates';
 ---
 
 <footer class="mx-auto max-w-3xl px-4 py-8 text-sm">
-	&copy; {new Date().getFullYear()} {AUTHOR.name}
+	&copy; {yearOf(new Date())} {AUTHOR.name}
 	<a href={AUTHOR.github} target="_blank" rel="noopener">GitHub</a>
 </footer>
