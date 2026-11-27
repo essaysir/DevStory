@@ -1,0 +1,11 @@
+---
+interface Props {
+	tags: readonly string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<ul class="flex flex-wrap gap-2">
+	{tags.map((tag) => <li><a href={`/tags/${tag}/`}>#{tag}</a></li>)}
+</ul>

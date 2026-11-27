@@ -4,6 +4,8 @@ import { join } from 'node:path';
 import { SITE_INDEXABLE } from '../../src/consts';
 import { DIST, exists, htmlFiles, readDist } from './helpers';
 
+test('dist에 HTML이 있다', () => expect(htmlFiles().length).toBeGreaterThan(0));
+
 describe.each(htmlFiles())('%s', (file) => {
   const html = readDist(file);
 
@@ -17,6 +19,11 @@ describe.each(htmlFiles())('%s', (file) => {
     expect(m).not.toBeNull();
     expect(m![1].startsWith('https://tommycommits.dev/')).toBe(true);
     expect(m![1].endsWith('/')).toBe(true);
+  });
+  test('모든 img에 비어 있지 않은 alt', () => {
+    for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
+      expect(img).toMatch(/\salt="[^"]+"/);
+    }
   });
 });
 

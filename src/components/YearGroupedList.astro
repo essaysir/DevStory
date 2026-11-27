@@ -1,0 +1,20 @@
+---
+import { groupByYear } from '../lib/entries';
+import type { ArticleEntry } from '../lib/content';
+import ArticleList from './ArticleList.astro';
+
+interface Props {
+	items: ArticleEntry[];
+}
+
+const groups = groupByYear(Astro.props.items);
+---
+
+{
+	groups.map(({ year, items }) => (
+		<section class="mb-8">
+			<h2 class="mb-2 text-xl font-bold">{year}</h2>
+			<ArticleList items={items} />
+		</section>
+	))
+}

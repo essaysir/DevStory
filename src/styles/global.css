@@ -2,3 +2,5 @@
 @import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 @plugin "@tailwindcss/typography";
 @theme { --font-sans: 'Pretendard Variable', Pretendard, system-ui, sans-serif; }
+
+.astro-code, .astro-code span { color: var(--shiki-light); background-color: var(--shiki-light-bg); }

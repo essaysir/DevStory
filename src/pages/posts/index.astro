@@ -1,0 +1,12 @@
+---
+import YearGroupedList from '../../components/YearGroupedList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublished } from '../../lib/content';
+
+const posts = await getPublished('posts');
+---
+
+<BaseLayout title="Posts" description="긴 글 목록">
+	<h1 class="mb-6 text-3xl font-bold">Posts</h1>
+	<YearGroupedList items={posts} />
+</BaseLayout>

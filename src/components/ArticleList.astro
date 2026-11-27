@@ -1,0 +1,30 @@
+---
+import { SECTIONS } from '../consts';
+import { entryUrl } from '../lib/entries';
+import type { ArticleEntry } from '../lib/content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	items: ArticleEntry[];
+	showSection?: boolean;
+}
+
+const { items, showSection = false } = Astro.props;
+---
+
+<ul class="space-y-4">
+	{
+		items.map((item) => (
+			<li>
+				<a href={entryUrl(item)} class="font-semibold">{item.data.title}</a>
+				<div class="text-sm">
+					{showSection && (
+						<span>{item.collection === 'reviews' ? SECTIONS.reviews.label : 'Posts'} · </span>
+					)}
+					<FormattedDate date={item.data.pubDate} />
+				</div>
+				<p>{item.data.description}</p>
+			</li>
+		))
+	}
+</ul>

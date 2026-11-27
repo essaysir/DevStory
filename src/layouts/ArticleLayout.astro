@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import type { MarkdownHeading } from 'astro';
+import AuthorBlock from '../components/AuthorBlock.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+import Toc from '../components/Toc.astro';
+import type { ArticleEntry } from '../lib/content';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	entry: ArticleEntry;
+	headings: MarkdownHeading[];
+}
+
+const { entry, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, thumbnail } = entry.data;
+---
+
+<BaseLayout title={title} description={description}>
+	<article>
+		<header>
+			<h1 class="text-3xl font-bold">{title}</h1>
+			<p>
+				<FormattedDate date={pubDate} />
+				{
+					updatedDate && (
+						<span>
+							수정: <FormattedDate date={updatedDate} />
+						</span>
+					)
+				}
+			</p>
+			<TagList tags={tags} />
+		</header>
+		<slot name="summary" />
+		{thumbnail && <Image src={thumbnail} width={960} alt={title} />}
+		<Toc headings={headings} />
+		<div class="prose">
+			<slot />
+		</div>
+	</article>
+	<AuthorBlock />
+</BaseLayout>
