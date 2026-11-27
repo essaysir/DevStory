@@ -1,16 +1,10 @@
 process.env.TZ = 'UTC';
 import { test, expect } from 'vitest';
-import { SECTIONS } from '../../src/consts';
-import {
-	entryKey,
-	entryUrl,
-	sortByDateDesc,
-	groupByYear,
-	collectTags,
-	reviewsByShelf,
-	stars,
-	type ArticleLike,
-} from '../../src/lib/entries';
+import type { ArticleLike } from '../../src/lib/entries';
+
+const { SECTIONS } = await import('../../src/consts');
+const { entryKey, entryUrl, sortByDateDesc, groupByYear, collectTags, reviewsByShelf, stars } =
+	await import('../../src/lib/entries');
 
 const post = (id: string, pubDate: string, tags: string[] = []): ArticleLike => ({
 	collection: 'posts',

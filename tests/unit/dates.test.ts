@@ -1,6 +1,7 @@
 process.env.TZ = 'UTC';
 import { test, expect } from 'vitest';
-import { formatDate, yearOf } from '../../src/lib/dates';
+
+const { formatDate, yearOf } = await import('../../src/lib/dates');
 
 test('formatDate는 한국 날짜 기준으로 포맷한다', () => {
 	expect(formatDate(new Date('2026-11-20'))).toBe('2026년 11월 20일');

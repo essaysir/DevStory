@@ -11,10 +11,14 @@ const groups = groupByYear(Astro.props.items);
 ---
 
 {
-	groups.map(({ year, items }) => (
-		<section class="mb-8">
-			<h2 class="mb-2 text-xl font-bold">{year}</h2>
-			<ArticleList items={items} />
-		</section>
-	))
+	groups.length === 0 ? (
+		<p>아직 없음</p>
+	) : (
+		groups.map(({ year, items }) => (
+			<section class="mb-8">
+				<h2 class="mb-2 text-xl font-bold">{year}</h2>
+				<ArticleList items={items} />
+			</section>
+		))
+	)
 }

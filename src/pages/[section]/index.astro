@@ -22,11 +22,15 @@ const byShelf = reviewsByShelf(reviews);
 	<h1 class="mb-6 text-3xl font-bold">{label}</h1>
 	{
 		isShelf ? (
-			<ul class="grid gap-4">
-				{shelf.map((item) => (
-					<ShelfCard item={item} review={byShelf.get(item.id)?.[0]} />
-				))}
-			</ul>
+			shelf.length ? (
+				<ul class="grid gap-4">
+					{shelf.map((item) => (
+						<ShelfCard item={item} review={byShelf.get(item.id)?.[0]} />
+					))}
+				</ul>
+			) : (
+				<p>아직 없음</p>
+			)
 		) : (
 			<YearGroupedList items={reviews} />
 		)

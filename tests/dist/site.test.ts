@@ -69,3 +69,11 @@ test('description은 비어 있지 않다', () => {
     expect(readDist(file), file).toMatch(/<meta name="description" content="[^"]+"/);
   }
 });
+
+test('헤더 링크: 현재 페이지에만 aria-current="page"', () => {
+  const link = (html: string, href: string) =>
+    html.match(new RegExp(`<a\\b[^>]*\\bhref="${href}"[^>]*>`))?.[0] ?? '';
+  const posts = readDist('posts/index.html');
+  expect(link(posts, '/posts/')).toContain('aria-current="page"');
+  expect(readDist('index.html')).not.toContain('aria-current="page"');
+});
