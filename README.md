@@ -35,3 +35,11 @@
 - `draft: true`인 글은 dev 서버에서만 보이고 빌드 결과에서는 빠진다.
 - 후기: 먼저 `src/content/shelf/{id}.yaml`과 그 옆에 이미지를 만든 뒤, 후기 `src/content/reviews/{slug}/index.mdx`에 `shelf: {id}`를 적는다. 후기 제목은 "강의·책 정식 이름 + 후기"로 쓴다.
 - 데모: 한 글에서만 쓰면 그 글 폴더 안에, 여러 글에서 쓰면 `src/components/demos/`에 둔다.
+
+## 배포
+
+Cloudflare Workers Static Assets로 `dist/`를 올린다. 설정은 `wrangler.jsonc`.
+
+- 최초 1회: `npx wrangler login`
+- 배포: `npm run deploy` (검증 `npm run verify`를 통과해야 올라간다)
+- 미리보기 기간에는 `src/consts.ts`의 `SITE_INDEXABLE=false`라 모든 페이지에 `noindex`가 붙어 검색엔진 색인이 막힌다.

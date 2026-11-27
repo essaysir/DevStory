@@ -13,7 +13,8 @@
     "check": "astro check",
     "test": "vitest run tests/unit",
     "test:dist": "vitest run tests/dist",
-    "verify": "npm run check && npm run test && npm run build && npm run test:dist"
+    "verify": "npm run check && npm run test && npm run build && npm run test:dist",
+    "deploy": "npm run verify && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.6",
@@ -34,6 +35,7 @@
     "@astrojs/check": "^0.9.12",
     "@tailwindcss/typography": "^0.5.20",
     "typescript": "^6.0.3",
-    "vitest": "^5.1.2"
+    "vitest": "^5.1.2",
+    "wrangler": "^4.168.0"
   }
 }
