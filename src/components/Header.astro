@@ -1,0 +1,15 @@
+---
+import { SECTIONS, SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+	<a href="/" class="font-bold">{SITE_TITLE}</a>
+	<nav class="flex flex-wrap gap-4">
+		<HeaderLink href="/posts/">Posts</HeaderLink>
+		<HeaderLink href={`/${SECTIONS.reviews.slug}/`}>{SECTIONS.reviews.label}</HeaderLink>
+		<HeaderLink href={`/${SECTIONS.shelf.slug}/`}>{SECTIONS.shelf.label}</HeaderLink>
+		<HeaderLink href="/tags/">태그</HeaderLink>
+		<HeaderLink href="/about/">About</HeaderLink>
+	</nav>
+</header>
