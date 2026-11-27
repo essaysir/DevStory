@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { formatDate } from '../lib/dates';
+import type { ShelfEntry } from '../lib/content';
+import { stars } from '../lib/entries';
+
+interface Props {
+	item: ShelfEntry;
+}
+
+const { item } = Astro.props;
+const { data } = item;
+---
+
+<aside class="my-6 flex gap-4 border p-4">
+	<Image src={data.image} width={240} alt={data.title} />
+	<div>
+		<p class="font-semibold">{data.title}</p>
+		<p>
+			{
+				data.type === 'course'
+					? `${data.platform} · ${data.instructor} · ${data.hours}시간`
+					: data.author
+			}
+		</p>
+		<p>완료 {formatDate(data.finishedAt)} · {stars(data.rating)}</p>
+		<p>추천: {data.recommendFor}</p>
+		<p>안 맞음: {data.notFor}</p>
+		<a href={data.link}>보러 가기 →</a>
+	</div>
+</aside>

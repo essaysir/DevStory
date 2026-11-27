@@ -1,0 +1,34 @@
+---
+import ShelfCard from '../../components/ShelfCard.astro';
+import YearGroupedList from '../../components/YearGroupedList.astro';
+import { SECTIONS } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublished, getShelf } from '../../lib/content';
+import { reviewsByShelf } from '../../lib/entries';
+
+export function getStaticPaths() {
+	return [{ params: { section: SECTIONS.reviews.slug } }, { params: { section: SECTIONS.shelf.slug } }];
+}
+
+const { section } = Astro.params;
+const isShelf = section === SECTIONS.shelf.slug;
+const label = isShelf ? SECTIONS.shelf.label : SECTIONS.reviews.label;
+const reviews = await getPublished('reviews');
+const shelf = isShelf ? await getShelf() : [];
+const byShelf = reviewsByShelf(reviews);
+---
+
+<BaseLayout title={label}>
+	<h1 class="mb-6 text-3xl font-bold">{label}</h1>
+	{
+		isShelf ? (
+			<ul class="grid gap-4">
+				{shelf.map((item) => (
+					<ShelfCard item={item} review={byShelf.get(item.id)?.[0]} />
+				))}
+			</ul>
+		) : (
+			<YearGroupedList items={reviews} />
+		)
+	}
+</BaseLayout>

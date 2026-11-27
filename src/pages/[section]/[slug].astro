@@ -1,0 +1,25 @@
+---
+import { render } from 'astro:content';
+import SummaryCard from '../../components/SummaryCard.astro';
+import { SECTIONS } from '../../consts';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getPublished, getShelfItem } from '../../lib/content';
+
+export async function getStaticPaths() {
+	const reviews = await getPublished('reviews');
+	return Promise.all(
+		reviews.map(async (entry) => ({
+			params: { section: SECTIONS.reviews.slug, slug: entry.id },
+			props: { entry, item: await getShelfItem(entry) },
+		})),
+	);
+}
+
+const { entry, item } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<ArticleLayout entry={entry} headings={headings}>
+	<SummaryCard slot="summary" item={item} />
+	<Content />
+</ArticleLayout>
