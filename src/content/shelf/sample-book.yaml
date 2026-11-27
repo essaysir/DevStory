@@ -1,0 +1,9 @@
+type: book
+title: '샘플 책: 데이터베이스 설계 기초'
+image: ./sample-book.jpg
+author: 샘플 저자
+finishedAt: 2025-12-15
+rating: 5
+recommendFor: 테이블 설계가 막막한 사람
+notFor: 쿼리 튜닝만 필요한 사람
+link: https://example.com/book

@@ -1,0 +1,11 @@
+type: course
+title: '샘플 강의: 스프링 데이터 입문'
+image: ./sample-course.jpg
+platform: 인프런
+instructor: 샘플 강사
+hours: 12.5
+finishedAt: 2026-09-30
+rating: 4
+recommendFor: 스프링으로 데이터 접근을 처음 배우는 사람
+notFor: 이미 JPA를 실무에서 쓰고 있는 사람
+link: https://example.com/course
